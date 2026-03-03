@@ -53,10 +53,11 @@
     }
     .doc-header .meta {
       text-align: right;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--ink-2);
-      line-height: 1.8;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      color: #374151;
+      line-height: 1.55;
+      font-weight: 500;
     }
     /* other sub-elements removed since they are no longer used */
 
@@ -91,6 +92,15 @@
       text-align: left;
       word-wrap: break-word;
       white-space: normal;
+    }
+
+    /* listas: evitar viñetas "salidas" del bloque visual */
+    ul, ol {
+      margin: 6px 0 6px 0;
+      padding-left: 18px;
+    }
+    li {
+      margin: 2px 0;
     }
 
     /* firmas: quitar bordes y layout fijo para que no parezca tabla */
