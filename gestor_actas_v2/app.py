@@ -1206,7 +1206,6 @@ if st.session_state.pagina == "nueva":
 
         st.markdown("#### Desarrollo y Temas Tratados")
         datos["desarrollo"] = st.text_area("Desarrollo y temas tratados", value=datos_previos.get("desarrollo",""), height=120, key="desarrollo_reu", label_visibility="collapsed")
-        datos["acuerdos"]   = st.text_area("Acuerdos y Compromisos (Acuerdo - Responsable - Fecha)", value=datos_previos.get("acuerdos",""),   height=100, key="acuerdos_reu")
 
         st.markdown("#### Compromisos y Plan de Acción")
         datos["compromisos"] = st.text_area(
@@ -1218,11 +1217,6 @@ if st.session_state.pagina == "nueva":
 
         st.markdown("#### Observaciones")
         datos["observaciones"] = st.text_area("Observaciones", value=datos_previos.get("observaciones",""), height=90, key="obs_reu", label_visibility="collapsed")
-
-        st.markdown("#### Firmas de Aprobación")
-        col1, col2 = st.columns(2)
-        datos["firmaModerador"]  = col1.text_input("Moderador",  value=datos_previos.get("firmaModerador",""),  key="fmo_r")
-        datos["firmaSecretario"] = col2.text_input("Secretario", value=datos_previos.get("firmaSecretario",""), key="fse_r")
 
     # ── Barra de acciones ─────────────────────────────────────────────────────
     st.divider()

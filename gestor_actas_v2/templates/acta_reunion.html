@@ -117,26 +117,6 @@
   </div>
   {% endif %}
 
-  <!-- Firmas de Aprobación -->
-  <table class="firmas-tabla" style="margin-bottom:25px;">
-    <tbody>
-      <tr>
-        <td>
-          <div class="firma-linea">
-            <span class="firma-nombre">{{ datos.get('firmaModerador') or '________________________________' }}</span>
-            <span class="firma-rol">Moderador / Líder</span>
-          </div>
-        </td>
-        <td>
-          <div class="firma-linea">
-            <span class="firma-nombre">{{ datos.get('firmaSecretario') or '________________________________' }}</span>
-            <span class="firma-rol">Secretario / Tomador de Acta</span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
   <!-- Nota Final -->
   <div style="background:#ffffff; padding:20px; border-left:6px solid {{ accent_color }};">
     <strong>NOTA:</strong>
