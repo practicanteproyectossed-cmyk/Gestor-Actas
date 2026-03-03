@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "uid": "dc9aea438c104a6195be48fcdc752dea",
+    "tipo": "inicio_requerimiento",
+    "titulo": "Sin título",
+    "createdAt": "2026-03-03 09:51",
+    "data": {
+      "cl_nombreRequerimiento": "",
+      "cl_areasSolicitantes": "",
+      "cl_tipoRequerimiento": "",
+      "cl_fechaElaboracion": "03/03/2026",
+      "cl_responsableFuncional": "",
+      "cl_liderRequerimiento": "",
+      "cl_responsableTecnico": "",
+      "cl_antecedentesJustificacion": "",
+      "cl_objetivoRequerimiento": "",
+      "cl_alcanceProyecto": "",
+      "cl_alcance_5": "",
+      "cl_alcance_6": "",
+      "cl_vistasPorRol": "",
+      "cl_medicionControl": "",
+      "cl_notificaciones": "",
+      "cl_trazabilidadAuditoria": "",
+      "cl_alcanceTecnico": "",
+      "cl_exclusiones": ""
+    }
+  }
+]

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{# acta con estilo del HTML antiguo pero sin numeración intermedia #}
+{% set accent_color = "#d71920" %}
+{% set tipo_label   = "ACTA DE INICIO (CLÁSICA)" %}
+
+{% block head %}
+  <style>
+    body {font-family: Arial, Helvetica, sans-serif !important;
+          margin: 40px !important; color: #333 !important;}
+    .header {display:flex; justify-content:space-between; align-items:center;
+             border-bottom:3px solid #d71920; padding-bottom:10px;}
+    .title {font-size:24px; font-weight:bold; color:#d71920;}
+    .section {margin-top:25px;}
+    .section h2 {background-color:#f4f4f4; padding:8px;
+                 border-left:5px solid #d71920; font-size:18px;}
+    h3 {color:#d71920; margin-top:15px;} /* in case someone uses it */
+    table {width:100%; border-collapse:collapse; margin-top:10px;}
+    table, th, td {border:1px solid #ccc;}
+    th, td {padding:8px; text-align:left;}
+    ul {margin-top:5px;}
+    .doc-footer {margin-top:40px; font-size:12px; text-align:center; color:#666;}
+  </style>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="header">
+  <div class="title">ACTA DE INICIO DE REQUERIMIENTO</div>
+</div>
+
+<div class="section">
+  <h2>1. Información General</h2>
+  <table>
+    <tr><th>Nombre del Requerimiento</th><td>{{ datos.get('cl_nombreRequerimiento','') }}</td></tr>
+    <tr><th>Áreas Solicitantes</th><td>{{ datos.get('cl_areasSolicitantes','') }}</td></tr>
+    <tr><th>Tipo de Requerimiento</th><td>{{ datos.get('cl_tipoRequerimiento','') }}</td></tr>
+    <tr><th>Fecha de Elaboración</th><td>{{ datos.get('cl_fechaElaboracion','') }}</td></tr>
+    <tr><th>Responsable Funcional</th><td>{{ datos.get('cl_responsableFuncional','') }}</td></tr>
+    <tr><th>Líder del Requerimiento</th><td>{{ datos.get('cl_liderRequerimiento','') }}</td></tr>
+    <tr><th>Responsable Técnico</th><td>{{ datos.get('cl_responsableTecnico','') }}</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>2. Antecedentes y Justificación</h2>
+  <div>{{ datos.get('cl_antecedentesJustificacion','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>3. Objetivo del Requerimiento</h2>
+  <div>{{ datos.get('cl_objetivoRequerimiento','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>4. Alcance del Proyecto</h2>
+  <div>{{ datos.get('cl_alcanceProyecto','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>5. Alcance Funcional – Compras de Mercadeo</h2>
+  <div>{{ datos.get('cl_alcance_5','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>6. Alcance Funcional – Compras Internas</h2>
+  <div>{{ datos.get('cl_alcance_6','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>7. Vistas por Rol</h2>
+  <div>{{ datos.get('cl_vistasPorRol','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>8. Medición y Control</h2>
+  <div>{{ datos.get('cl_medicionControl','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>9. Notificaciones Automáticas</h2>
+  <div>{{ datos.get('cl_notificaciones','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>10. Trazabilidad y Auditoría</h2>
+  <div>{{ datos.get('cl_trazabilidadAuditoria','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>11. Alcance Técnico</h2>
+  <div>{{ datos.get('cl_alcanceTecnico','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="section">
+  <h2>12. Exclusiones</h2>
+  <div>{{ datos.get('cl_exclusiones','') | replace('\n','<br>') | safe }}</div>
+</div>
+
+<div class="doc-footer">Documento controlado – Transformación Digital<br> SED INTERNATIONAL de Colombia</div>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% set accent_color = "#d71920" %}  {# uniforme con acta inicio #}
+{% set tipo_label   = "ACTA DE CIERRE" %}
+
+{% block contenido %}
+
+
+  <!-- Encabezado -->
+  <h2 style="text-align:center; color:{{ accent_color }}; margin-bottom:5px;">
+    ACTA DE CIERRE DE REQUERIMIENTO
+  </h2>
+  <hr style="border:1px solid {{ accent_color }}; width:60%; margin:auto; margin-bottom:30px;">
+
+  <!-- Información General -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Información General
+    </h3>
+    <table style="width:100%; border-collapse:collapse;">
+      <tr><td><strong>Nombre del Requerimiento:</strong></td><td>{{ datos.get('nombreRequerimiento','') }}</td></tr>
+      <tr><td><strong>Solicitado por:</strong></td><td>{{ datos.get('solicitadoPor','') }}</td></tr>
+      <tr><td><strong>Área Solicitante:</strong></td><td>{{ datos.get('areaSolicitante','') }}</td></tr>
+      <tr><td><strong>Fecha de Entrega:</strong></td><td>{{ datos.get('fechaEntrega','') }}</td></tr>
+      <tr><td><strong>Ejecutor del Requerimiento:</strong></td><td>{{ datos.get('ejecutorRequerimiento','') }}</td></tr>
+    </table>
+  </div>
+
+  <!-- Objetivo -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Objetivo del Requerimiento
+    </h3>
+    <p style="text-align:justify;">{{ datos.get('objetivoCierre','') | replace('\n','<br>') | safe }}</p>
+  </div>
+
+  <!-- Desarrollo -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Desarrollo del Requerimiento
+    </h3>
+    <p style="text-align:justify;">{{ datos.get('desarrolloRequerimiento','') | replace('\n','<br>') | safe }}</p>
+  </div>
+
+  <!-- Entregables -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Entregables
+    </h3>
+    <ul>
+      {% for item in datos.get('entregablesCierre','').split('\n') if item.strip() %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Lecciones Aprendidas -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Lecciones Aprendidas
+    </h3>
+    <ul>
+      {% for item in datos.get('leccionesAprendidas','').split('\n') if item.strip() %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Firmas de Aprobación -->
+  <table class="firmas-tabla" style="margin-bottom:25px;">
+    <tbody>
+      <tr>
+        <td>
+          <div class="firma-linea">
+            <span class="firma-nombre">{{ datos.get('firmaGerente') or '________________________________' }}</span>
+            <span class="firma-rol">Gerente de Proyecto</span>
+          </div>
+        </td>
+        <td>
+          <div class="firma-linea">
+            <span class="firma-nombre">{{ datos.get('firmaCliente') or '________________________________' }}</span>
+            <span class="firma-rol">Cliente / Patrocinador</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Nota -->
+  <div style="background:#ffffff; padding:20px; border-left:6px solid {{ accent_color }};">
+    <strong>NOTA:</strong>
+    Posterior a la aprobación de esta acta de cierre de requerimiento, todo ajuste será tomado como Control de Cambios.
+    <br><br>
+    Con el objetivo de seguir mejorando en tiempos y calidad, agradecemos diligenciar la siguiente encuesta:
+    <br><br>
+    <a href="https://forms.office.com/r/Pqcd06zdpd" style="color:{{ accent_color }}; font-weight:bold;">
+      Encuesta de Satisfacción
+    </a>
+  </div>
+
+
+
+{% endblock %}

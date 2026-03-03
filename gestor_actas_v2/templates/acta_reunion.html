@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% set accent_color = "#d71920" %}  {# mismo rojo que acta_inicio_requerimiento #}
+{% set tipo_label   = "ACTA DE REUNIÓN" %}
+
+{% block contenido %}
+
+
+  <h2 style="text-align:center; color:{{ accent_color }}; margin-bottom:5px;">
+    ACTA DE REUNIÓN
+  </h2>
+  <hr style="border:1px solid {{ accent_color }}; width:60%; margin:auto; margin-bottom:30px;">
+
+  <!-- Información General -->
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Información General
+    </h3>
+    <table style="width:100%; border-collapse:collapse;">
+      <tr><td><strong>Proyecto / Tema:</strong></td><td>{{ datos.get('nombreReunion','') }}</td></tr>
+      <tr><td><strong>Fecha:</strong></td><td>{{ datos.get('fechaReunion','') }}</td></tr>
+      <tr><td><strong>Hora Inicio:</strong></td><td>{{ datos.get('horaInicio','') }}</td></tr>
+      <tr><td><strong>Hora Fin:</strong></td><td>{{ datos.get('horaFin','') }}</td></tr>
+      <tr><td><strong>Lugar / Medio:</strong></td><td>{{ datos.get('lugar','') }}</td></tr>
+      <tr><td><strong>Líder de la Reunión:</strong></td><td>{{ datos.get('liderReunion','') }}</td></tr>
+      <tr><td><strong>Elaboró:</strong></td><td>{{ datos.get('elaboro','') }}</td></tr>
+    </table>
+  </div>
+
+  <!-- Participantes -->
+  {% if datos.get('asistentes') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Participantes
+    </h3>
+    <ul>
+      {% for item in datos.get('asistentes','').split('\n') if item.strip() %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <!-- Agenda -->
+  {% if datos.get('agenda') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">Agenda / Puntos Tratados</h3>
+    <p style="text-align:justify;">{{ datos.get('agenda') | replace('\n','<br>') | safe }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Objetivo -->
+  {% if datos.get('objetivo') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Objetivo de la Reunión
+    </h3>
+    <p style="text-align:justify;">{{ datos.get('objetivo') | replace('\n','<br>') | safe }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Desarrollo -->
+  {% if datos.get('desarrollo') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Desarrollo y Temas Tratados
+    </h3>
+    <ul>
+      {% for item in datos.get('desarrollo','').split('\n') if item.strip() %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <!-- Acuerdos -->
+  {% if datos.get('acuerdos') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">Acuerdos y Compromisos</h3>
+    <p style="text-align:justify;">{{ datos.get('acuerdos') | replace('\n','<br>') | safe }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Compromisos y Plan de Acción -->
+  {% if datos.get('compromisos') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Compromisos y Plan de Acción
+    </h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+      <tr style="background-color:{{ accent_color }}; color:#ffffff;">
+        <th style="padding:8px; text-align:left;">Compromiso</th>
+        <th style="padding:8px; text-align:left;">Responsable</th>
+        <th style="padding:8px; text-align:left;">Fecha Compromiso</th>
+        <th style="padding:8px; text-align:left;">Estado</th>
+      </tr>
+      {% for row in datos.get('compromisos','').split('\n') if row.strip() %}
+      {% set cols = row.split('|') %}
+      <tr>
+        <td style="padding:8px;">{{ cols[0] }}</td>
+        <td style="padding:8px;">{{ cols[1] if cols|length>1 else '' }}</td>
+        <td style="padding:8px;">{{ cols[2] if cols|length>2 else '' }}</td>
+        <td style="padding:8px;">{{ cols[3] if cols|length>3 else '' }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- Observaciones -->
+  {% if datos.get('observaciones') %}
+  <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+      Observaciones
+    </h3>
+    <p style="text-align:justify;">{{ datos.get('observaciones') | replace('\n','<br>') | safe }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Firmas de Aprobación -->
+  <table class="firmas-tabla" style="margin-bottom:25px;">
+    <tbody>
+      <tr>
+        <td>
+          <div class="firma-linea">
+            <span class="firma-nombre">{{ datos.get('firmaModerador') or '________________________________' }}</span>
+            <span class="firma-rol">Moderador / Líder</span>
+          </div>
+        </td>
+        <td>
+          <div class="firma-linea">
+            <span class="firma-nombre">{{ datos.get('firmaSecretario') or '________________________________' }}</span>
+            <span class="firma-rol">Secretario / Tomador de Acta</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Nota Final -->
+  <div style="background:#ffffff; padding:20px; border-left:6px solid {{ accent_color }};">
+    <strong>NOTA:</strong>
+    Esta acta se considera aprobada si no se reciben observaciones dentro de las siguientes 24 horas hábiles.
+  </div>
+
+
+
+{% endblock %}

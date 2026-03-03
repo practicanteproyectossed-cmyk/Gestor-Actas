@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ tipo|upper }} — {{ datos.get('nombreProyecto', datos.get('nombreReunion', 'Acta')) }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  {% block head %}{% endblock %}
+  <style>
+    :root {
+      --ink:       #1c1b18;
+      --ink-2:     #6b6860;
+      --ink-3:     #a8a49c;
+      --border:    #e2e0db;
+      --bg-cell:   #f7f7f6;
+      --accent:    {{ accent_color }};
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 14px; }
+    html, body { scroll-behavior: smooth; }
+
+    body {
+      /* usar la misma tipografía que el template de inicio */
+      font-family: Arial, Helvetica, sans-serif !important;
+      background: #fff;
+      color: #333;  /* como en inicio */
+      padding: 56px 72px;
+      max-width: 860px;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    /* ── Header ── */
+    /* simplified header: only date, no separator line */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      /* no border */
+    }
+    .doc-logo {
+      width: 110px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      position: relative;
+      top: -20px;
+    }
+    .doc-header .meta {
+      text-align: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-2);
+      line-height: 1.8;
+    }
+    /* other sub-elements removed since they are no longer used */
+
+    /* ── Título central ── */
+    .doc-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem;
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    .doc-subtitle {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--ink-2);
+      margin-bottom: 28px;
+    }
+
+    /* ── Tablas generales del documento ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      table-layout: fixed;                 /* evita que se estire fuera de la hoja */
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    /* firmas: quitar bordes y layout fijo para que no parezca tabla */
+    .firmas-tabla, .firmas-tabla th, .firmas-tabla td {
+      border: none !important;
+    }
+    .firmas-tabla {
+      table-layout: auto !important;
+    }
+      font-size: 0.82rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .meta-tabla .lbl {
+      background: var(--bg-cell);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      width: 30%;
+      white-space: nowrap;
+    }
+
+    /* ── Secciones de contenido ── */
+    .seccion {
+      margin-bottom: 18px;
+    }
+    .seccion-titulo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .seccion-texto {
+      font-size: 0.83rem;
+      line-height: 1.75;
+      color: #222;
+    }
+
+    /* ── Estado badge (para cierre) ── */
+    .estado-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+    .estado-Exitoso  { background: #e8f5ef; color: #1e7a4e; }
+    .estado-Parcial  { background: #fff8e1; color: #b8860b; }
+    .estado-Cancelado { background: #fbeaea; color: #c23b2e; }
+
+    /* ── Firmas ── */
+    .firmas-tabla {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 56px;
+    }
+    .firmas-tabla td {
+      text-align: center;
+      padding: 8px 20px;
+      width: 50%;
+    }
+    .firma-linea {
+      /* eliminar línea gris superior, dejar sólo el texto/espacio
+         para firma */
+      margin-top: 48px;
+      padding-top: 8px;
+    }
+    .firma-nombre {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--ink);
+      min-height: 1.2rem;
+    }
+    .firma-rol {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--ink-3);
+      margin-top: 2px;
+    }
+
+    /* ── Footer del doc (minimal) ── */
+    .doc-footer {
+      margin-top: 48px;
+      padding-top: 14px;
+      /* no border, single centered line */
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--ink-3);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── Print ── */
+    @page {
+      size: A4;
+      margin: 12mm 14mm;
+    }
+    @media print {
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="doc-header">
+    <div>
+      {% if logo_data_uri %}
+      <img src="{{ logo_data_uri }}" alt="Logo SED" class="doc-logo">
+      {% endif %}
+    </div>
+    <div class="meta">
+      {{ fecha_generacion }}
+    </div>
+  </div>
+
+  {% block contenido %}{% endblock %}
+
+  <div class="doc-footer"></div>
+
+</body>
+</html>
