@@ -1,4 +1,4 @@
-﻿import streamlit as st
+import streamlit as st
 import streamlit.components.v1 as components
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime, date
@@ -545,17 +545,6 @@ hr {
     background: #f8fafc;
     color: #334155;
 }
-.mis-actas-toolbar {
-    border: 1px solid #dbe2ea;
-    border-radius: 12px;
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    padding: 0.75rem 0.9rem 0.35rem 0.9rem;
-    margin-bottom: 0.8rem;
-}
-.mis-actas-toolbar [data-baseweb="input"],
-.mis-actas-toolbar [data-baseweb="select"] {
-    min-height: 38px !important;
-}
 .acta-card-shell {
     padding: 0.25rem 0.1rem 0.05rem 0.1rem;
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -599,8 +588,6 @@ div[class*="st-key-edit_"] .stButton button,
 div[class*="st-key-edit_"] [data-testid="stButton"] button,
 div[class*="st-key-ver_"] .stButton button,
 div[class*="st-key-ver_"] [data-testid="stButton"] button,
-div[class*="st-key-prep_pdf_"] .stButton button,
-div[class*="st-key-prep_pdf_"] [data-testid="stButton"] button,
 div[class*="st-key-del_"] .stButton button,
 div[class*="st-key-del_"] [data-testid="stButton"] button,
 div[class*="st-key-dl_html_"] .stDownloadButton button,
