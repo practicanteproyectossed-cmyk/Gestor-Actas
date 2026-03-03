@@ -734,13 +734,12 @@ def _normalizar_tipo(tipo: str) -> str:
     return "inicio_requerimiento" if tipo == "inicio_clasica" else tipo
 
 def _fecha_es_capitalizada(fecha: datetime) -> str:
-    txt = fecha.strftime("%d de %B de %Y")
-    partes = txt.split(" de ")
-    if len(partes) >= 3 and partes[1]:
-        mes = partes[1]
-        partes[1] = mes[:1].upper() + mes[1:]
-        return " de ".join(partes)
-    return txt
+    meses_es = (
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+    )
+    mes = meses_es[fecha.month - 1]
+    return f"{fecha.day:02d} de {mes} de {fecha.year}"
 
 @st.cache_data(show_spinner=False)
 def obtener_logo_data_uri() -> str:
@@ -998,13 +997,18 @@ if st.session_state.pagina == "nueva":
 
     st.markdown("## " + ("Editar Acta" if editando else "Nueva Acta"))
 
-    tipo_default = editando["tipo"] if editando else st.session_state.get("tipo_seleccionado", list(TIPOS.keys())[0])
-    if st.session_state.get("tipo_acta_select") != tipo_default:
+    tipos_disponibles = list(TIPOS.keys())
+    if editando:
+        tipo_default = editando["tipo"]
         st.session_state.tipo_acta_select = tipo_default
+    else:
+        tipo_default = st.session_state.get("tipo_acta_select") or st.session_state.get("tipo_seleccionado", tipos_disponibles[0])
+        if st.session_state.get("tipo_acta_select") is None:
+            st.session_state.tipo_acta_select = tipo_default
     tipo = st.selectbox(
         "Tipo de acta",
-        list(TIPOS.keys()),
-        index=list(TIPOS.keys()).index(tipo_default),
+        tipos_disponibles,
+        index=tipos_disponibles.index(tipo_default),
         format_func=lambda x: TIPOS[x]["label"],
         key="tipo_acta_select",
         disabled=bool(editando),
