@@ -920,6 +920,7 @@ if "preview_html"  not in st.session_state: st.session_state.preview_html  = Non
 if "preview_datos" not in st.session_state: st.session_state.preview_datos = {}
 if "pagina"        not in st.session_state: st.session_state.pagina        = "nueva"
 if "acta_editando" not in st.session_state: st.session_state.acta_editando = None
+if "borradores"    not in st.session_state: st.session_state.borradores    = {}
 if "filtro_mis_actas" not in st.session_state: st.session_state.filtro_mis_actas = "Todas"
 if "flash"         not in st.session_state: st.session_state.flash         = None
 if "page_transition" not in st.session_state: st.session_state.page_transition = False
@@ -1015,6 +1016,7 @@ if st.session_state.pagina == "nueva":
     )
     if not editando:
         st.session_state.tipo_seleccionado = tipo
+        datos_previos = st.session_state.borradores.get(tipo, {})
     if st.session_state.preview_html and st.session_state.preview_datos.get("tipo") != tipo:
         cerrar_preview()
 
@@ -1219,6 +1221,10 @@ if st.session_state.pagina == "nueva":
         datos["observaciones"] = st.text_area("Observaciones", value=datos_previos.get("observaciones",""), height=90, key="obs_reu", label_visibility="collapsed")
 
     # ── Barra de acciones ─────────────────────────────────────────────────────
+    if not editando:
+        # Borrador en memoria por tipo de acta: se conserva al navegar entre páginas.
+        st.session_state.borradores[tipo] = dict(datos)
+
     st.divider()
     col_g, col_p, col_c, _ = st.columns([1.2, 1.2, 1.2, 2])
 
@@ -1253,6 +1259,7 @@ if st.session_state.pagina == "nueva":
             }
             st.session_state.actas.append(nueva)
             guardar_actas(st.session_state.actas)
+            st.session_state.borradores.pop(tipo, None)
             set_feedback("success", f"Acta guardada: {titulo}", ":material/check_circle:")
             st.rerun()
 
