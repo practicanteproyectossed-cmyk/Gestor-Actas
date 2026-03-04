@@ -1073,7 +1073,7 @@ if st.session_state.pagina == "nueva":
         )
 
         # sección 5
-        st.markdown("#### 5. Alcance Funcional – Compras de Mercadeo")
+        st.markdown("#### 5. Alcance Funcional")
         datos["cl_alcance_5"] = st.text_area(
             "",
             value=datos_previos.get("cl_alcance_5",""),
@@ -1081,27 +1081,18 @@ if st.session_state.pagina == "nueva":
             key="ia_cl_alc_5"
         )
 
-        # sección 6
-        st.markdown("#### 6. Alcance Funcional – Compras Internas")
-        datos["cl_alcance_6"] = st.text_area(
-            "",
-            value=datos_previos.get("cl_alcance_6",""),
-            height=120,
-            key="ia_cl_alc_6"
-        )
-
-        # secciones 7 a 12
-        st.markdown("#### 7. Vistas por Rol")
+        # secciones 6 a 11
+        st.markdown("#### 6. Vistas por Rol")
         datos["cl_vistasPorRol"] = st.text_area("", value=datos_previos.get("cl_vistasPorRol",""), height=80, key="ia_cl_vistasRol")
-        st.markdown("#### 8. Medición y Control")
+        st.markdown("#### 7. Medición y Control")
         datos["cl_medicionControl"] = st.text_area("", value=datos_previos.get("cl_medicionControl",""), height=80, key="ia_cl_med_control")
-        st.markdown("#### 9. Notificaciones Automáticas")
+        st.markdown("#### 8. Notificaciones Automáticas")
         datos["cl_notificaciones"] = st.text_area("", value=datos_previos.get("cl_notificaciones",""), height=80, key="ia_cl_notificaciones")
-        st.markdown("#### 10. Trazabilidad y Auditoría")
+        st.markdown("#### 9. Trazabilidad y Auditoría")
         datos["cl_trazabilidadAuditoria"] = st.text_area("", value=datos_previos.get("cl_trazabilidadAuditoria",""), height=80, key="ia_cl_traz_aud")
-        st.markdown("#### 11. Alcance Técnico")
+        st.markdown("#### 10. Alcance Técnico")
         datos["cl_alcanceTecnico"] = st.text_area("", value=datos_previos.get("cl_alcanceTecnico",""), height=80, key="ia_cl_alc_tecnico")
-        st.markdown("#### 12. Exclusiones")
+        st.markdown("#### 11. Exclusiones")
         datos["cl_exclusiones"] = st.text_area("", value=datos_previos.get("cl_exclusiones",""), height=80, key="ia_cl_exclusiones")
 
 
