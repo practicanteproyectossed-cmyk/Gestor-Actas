@@ -1583,7 +1583,7 @@ elif st.session_state.pagina == "lista":
                     st.session_state.pagina = "nueva"
                     st.rerun()
 
-                if col_d.button("", key=f"del_{acta_uid}", use_container_width=True, help="Eliminar acta"):
+                if col_d.button(":material/delete:", key=f"del_{acta_uid}", use_container_width=True, help="Eliminar acta"):
                     titulo_eliminado = acta.get("titulo", "Sin título")
                     st.session_state.actas = [
                         a for a in actas

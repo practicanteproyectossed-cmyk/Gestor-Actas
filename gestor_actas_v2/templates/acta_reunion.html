@@ -64,11 +64,15 @@
     <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
       Desarrollo y Temas Tratados
     </h3>
+    {% if '<' in datos.get('desarrollo','') and '>' in datos.get('desarrollo','') %}
+    <div style="text-align:justify;">{{ datos.get('desarrollo') | safe }}</div>
+    {% else %}
     <ul>
       {% for item in datos.get('desarrollo','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
       {% endfor %}
     </ul>
+    {% endif %}
   </div>
   {% endif %}
 
