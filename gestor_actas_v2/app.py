@@ -7,6 +7,8 @@ import os
 import base64
 import locale
 from uuid import uuid4
+import re
+import unicodedata
 
 
 # intentar poner la localización en español para que strftime devuelva
@@ -871,15 +873,49 @@ def _sanear_actas(actas: list[dict]) -> bool:
 
     return changed
 
+def _obtener_titulo_acta(datos: dict) -> str:
+    return (
+        datos.get("cl_nombreRequerimiento")
+        or datos.get("nombreRequerimiento")
+        or datos.get("proyecto")
+        or datos.get("nombreReunion")
+        or "Sin título"
+    )
+
+def _slug_archivo(texto: str) -> str:
+    t = unicodedata.normalize("NFKD", texto or "")
+    t = "".join(c for c in t if not unicodedata.combining(c))
+    t = t.lower()
+    t = re.sub(r"[^a-z0-9]+", "_", t).strip("_")
+    return t or "sin_titulo"
+
+def _tipo_archivo(tipo: str) -> str:
+    return {
+        "inicio_requerimiento": "inicio_requerimiento",
+        "cierre": "cierre_requerimiento",
+        "cierre_proyecto": "cierre_proyecto",
+        "reunion": "reunion",
+    }.get(tipo, _slug_archivo(tipo))
+
+def _nombre_base_descarga(tipo: str, acta_id: int, titulo: str) -> str:
+    return f"{_slug_archivo(titulo)}__{_tipo_archivo(tipo)}__{str(acta_id).zfill(4)}"
+
 #  Helper: dos botones de descarga 
-def botones_descarga(html: str, tipo: str, acta_id: int, key_suffix: str, close_key: str | None = None) -> bool:
+def botones_descarga(
+    html: str,
+    tipo: str,
+    acta_id: int,
+    key_suffix: str,
+    close_key: str | None = None,
+    titulo: str = "Sin título",
+) -> bool:
     """
     Muestra botones en una fila:
       - Descargar HTML  (siempre disponible, Jinja2)
       - Descargar PDF   (requiere WeasyPrint)
       - Cerrar vista previa (opcional)
     """
-    nombre_base = f"acta_{tipo}_{str(acta_id).zfill(4)}"
+    nombre_base = _nombre_base_descarga(tipo, acta_id, titulo)
     cerrada = False
     col_html, col_pdf, col_close, _ = st.columns([1.3, 1.3, 1.0, 3.4])
 
@@ -1376,13 +1412,7 @@ if st.session_state.pagina == "nueva":
     col_g, col_p, col_c, _ = st.columns([1.2, 1.2, 1.2, 2])
 
     if col_g.button("Guardar acta", type="primary", use_container_width=True):
-        titulo = (
-            datos.get("cl_nombreRequerimiento")
-            or datos.get("nombreRequerimiento")
-            or datos.get("proyecto")
-            or datos.get("nombreReunion")
-            or "Sin título"
-        )
+        titulo = _obtener_titulo_acta(datos)
         if editando:
             for i, a in enumerate(st.session_state.actas):
                 if a.get("uid") == editando.get("uid") or (
@@ -1414,7 +1444,7 @@ if st.session_state.pagina == "nueva":
     if col_p.button("Previsualizar", use_container_width=True):
         datos["id"] = editando["id"] if editando else len(st.session_state.actas) + 1
         st.session_state.preview_html  = renderizar_acta(tipo, datos)
-        st.session_state.preview_datos = {"tipo": tipo, "id": datos["id"]}
+        st.session_state.preview_datos = {"tipo": tipo, "id": datos["id"], "titulo": _obtener_titulo_acta(datos)}
 
     if editando and col_c.button("Cancelar", use_container_width=True):
         cerrar_preview()
@@ -1435,6 +1465,7 @@ if st.session_state.pagina == "nueva":
             acta_id    = pdata.get("id", 0),
             key_suffix = "prev_nueva",
             close_key  = "close_prev_nueva",
+            titulo     = pdata.get("titulo", "Sin título"),
         )
 
         if cerrar_prev:
@@ -1560,7 +1591,7 @@ elif st.session_state.pagina == "lista":
                 st.markdown('<div class="acta-card-shell">', unsafe_allow_html=True)
                 acta_uid = str(acta.get("uid") or f"id_{acta.get('id', 0)}")
                 tipo_label  = TIPOS[acta["tipo"]]["label"]
-                nombre_base = f"acta_{acta['tipo']}_{str(acta['id']).zfill(4)}"
+                nombre_base = _nombre_base_descarga(acta["tipo"], acta["id"], acta.get("titulo", "Sin título"))
 
                 st.markdown(
                     f'<div class="acta-card-head accent-{acta["tipo"]}">'
@@ -1595,7 +1626,11 @@ elif st.session_state.pagina == "lista":
 
                 if col_v.button("Ver", key=f"ver_{acta_uid}", use_container_width=True):
                     st.session_state.preview_html  = html_reporte
-                    st.session_state.preview_datos = {"tipo": acta["tipo"], "id": acta["id"]}
+                    st.session_state.preview_datos = {
+                        "tipo": acta["tipo"],
+                        "id": acta["id"],
+                        "titulo": acta.get("titulo", "Sin título"),
+                    }
 
                 col_h.download_button(
                     label     = "Descargar HTML",
@@ -1630,7 +1665,11 @@ elif st.session_state.pagina == "lista":
             pdata = st.session_state.preview_datos or {}
             tipo_prev = _normalizar_tipo(pdata.get("tipo", "acta"))
             acta_id_prev = pdata.get("id", 0)
-            nombre_base_prev = f"acta_{tipo_prev}_{str(acta_id_prev).zfill(4)}"
+            nombre_base_prev = _nombre_base_descarga(
+                tipo_prev,
+                acta_id_prev,
+                pdata.get("titulo", "Sin título"),
+            )
 
             col_close_prev, col_pdf_prev, _ = st.columns([1.25, 1.35, 4.4])
             if col_close_prev.button("Cerrar vista previa", key="close_prev_lista", use_container_width=True):
