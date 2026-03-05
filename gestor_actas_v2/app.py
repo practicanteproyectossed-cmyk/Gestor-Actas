@@ -751,8 +751,31 @@ def obtener_logo_data_uri() -> str:
         b64 = base64.b64encode(f.read()).decode("utf-8")
     return f"data:image/jpeg;base64,{b64}"
 
+def _templates_fingerprint() -> tuple:
+    """Firma liviana de templates para invalidar caché al editar HTML."""
+    tpl_dir = os.path.join(os.path.dirname(__file__), "templates")
+    firma = []
+    try:
+        for nombre in sorted(os.listdir(tpl_dir)):
+            if not nombre.endswith(".html"):
+                continue
+            ruta = os.path.join(tpl_dir, nombre)
+            try:
+                firma.append((nombre, int(os.path.getmtime(ruta))))
+            except OSError:
+                continue
+    except OSError:
+        return tuple()
+    return tuple(firma)
+
 @st.cache_data(show_spinner=False)
-def _renderizar_acta_cache(tipo: str, datos_json: str, fecha_generacion: str, numero: str) -> str:
+def _renderizar_acta_cache(
+    tipo: str,
+    datos_json: str,
+    fecha_generacion: str,
+    numero: str,
+    templates_fp: tuple,
+) -> str:
     datos = json.loads(datos_json)
     if tipo == "cierre":
         tpl_name = "acta_cierre_requerimiento.html"
@@ -781,6 +804,7 @@ def renderizar_acta(tipo: str, datos: dict) -> str:
         datos_json=json.dumps(datos, ensure_ascii=False, sort_keys=True),
         fecha_generacion=_fecha_es_capitalizada(datetime.now()),
         numero=str(datos.get("id", 1)).zfill(4),
+        templates_fp=_templates_fingerprint(),
     )
 
 @st.cache_data(show_spinner=False)

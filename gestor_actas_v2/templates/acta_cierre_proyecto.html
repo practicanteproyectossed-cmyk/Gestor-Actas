@@ -4,15 +4,14 @@
 
 {% block contenido %}
 
-
-  <h2 style="text-align:center; color:{{ accent_color }}; margin-bottom:5px;">
+  <h2 style="text-align:center; color:var(--accent); margin-bottom:5px;">
     ACTA DE CIERRE DE PROYECTO
   </h2>
-  <hr style="border:1px solid {{ accent_color }}; width:60%; margin:auto; margin-bottom:30px;">
+  <hr style="border:1px solid var(--accent); width:60%; margin:auto; margin-bottom:30px;">
 
   <!-- Información General -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px;">Información General</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Información General</h3>
     <table style="width:100%; border-collapse:collapse;">
       <tr><td><strong>Empresa:</strong></td><td>{{ datos.get('empresa','') }}</td></tr>
       <tr><td><strong>Proyecto:</strong></td><td>{{ datos.get('proyecto','') }}</td></tr>
@@ -24,12 +23,12 @@
 
   <!-- Secciones -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px;">Resumen del Proyecto</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Resumen del Proyecto</h3>
     <p>{{ datos.get('resumenProyecto','') | replace('\n','<br>') | safe }}</p>
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px;">Participantes</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Participantes</h3>
     <ul>
       {% for item in datos.get('participantesProyecto','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -38,7 +37,7 @@
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px;">Entregables</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Entregables</h3>
     <ul>
       {% for item in datos.get('entregablesProyecto','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -47,7 +46,7 @@
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px;">Documentación</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Documentación</h3>
     <ul>
       {% for item in datos.get('documentacion','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -76,7 +75,7 @@
   </table>
 
   <!-- Nota -->
-  <div style="background:#ffffff; padding:20px; border-left:6px solid {{ accent_color }};">
+  <div style="background:#ffffff; padding:20px; border-left:6px solid var(--accent);">
     <strong>NOTA:</strong>
     Posterior a la aprobación de esta acta de cierre de proyecto todo ajuste será tomado como Control de Cambios.
     <br><br>
@@ -85,7 +84,5 @@
       https://forms.office.com/r/Pqcd06zdpd
     </a>
   </div>
-
-
 
 {% endblock %}
