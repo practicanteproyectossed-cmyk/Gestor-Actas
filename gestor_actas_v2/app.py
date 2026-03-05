@@ -20,36 +20,36 @@ for loc in ('es_ES.UTF-8','es_ES','Spanish_Spain','Spanish'):
         continue
 
 
-# ── Intentar importar WeasyPrint ──────────────────────────────────────────────
+#  Intentar importar WeasyPrint 
 try:
     from weasyprint import HTML as WeasyprintHTML
     WEASYPRINT_OK = True
 except ImportError:
     WEASYPRINT_OK = False
 
-# ── Configuración de página ───────────────────────────────────────────────────
+#  Configuración de página 
 st.set_page_config(
     page_title="Gestor de Actas",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ── CSS global ────────────────────────────────────────────────────────────────
+#  CSS global 
 st.markdown("""
 <style>
 
-/* ─────────────────────────────────────────────
+/* 
    FUENTE
-───────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+ */
+@import url('https://fonts.googleapis.com/css2family=Inter:wght@300;400;500;600&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    FONDO GENERAL CLARO
-───────────────────────────────────────────── */
+ */
 .stApp {
     background-color: #f4f6f8 !important;
 }
@@ -90,9 +90,9 @@ h1, h2, h3, h4, h5, h6 {
     color: #1f2933 !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    SIDEBAR CORPORATIVO
-───────────────────────────────────────────── */
+ */
 
 [data-testid="stSidebar"] {
     background:
@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 1.5rem 0 !important;
 }
 
-/* ─── BOTONES DEL SIDEBAR ────────────────── */
+/*  BOTONES DEL SIDEBAR  */
 [data-testid="stSidebar"] .stButton button,
 [data-testid="stSidebar"] [data-testid="stButton"] button {
     border-radius: 6px !important;
@@ -202,9 +202,9 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    TÍTULOS PRINCIPALES
-───────────────────────────────────────────── */
+ */
 h1, h2, h3 {
     color: #1f2933 !important;
     font-weight: 600 !important;
@@ -215,9 +215,9 @@ h1, h2, h3 {
     display: none !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    BOTONES GENERALES
-───────────────────────────────────────────── */
+ */
 .stButton button,
 [data-testid="stButton"] button {
     border-radius: 6px !important;
@@ -259,9 +259,9 @@ h1, h2, h3 {
     background-color: #f1f5f9 !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    INPUTS
-───────────────────────────────────────────── */
+ */
 .stTextInput input,
 .stTextArea textarea,
 .stSelectbox select,
@@ -477,9 +477,9 @@ li[role="option"][aria-selected="true"],
     line-height: 1.5 !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    DOWNLOAD BUTTON
-───────────────────────────────────────────── */
+ */
 .stDownloadButton button,
 [data-testid="stDownloadButton"] button {
     background: #0f172a !important;
@@ -493,16 +493,16 @@ li[role="option"][aria-selected="true"],
     background: #1e293b !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    DIVISORES
-───────────────────────────────────────────── */
+ */
 hr {
     border-color: #e2e8f0 !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    BADGES
-───────────────────────────────────────────── */
+ */
 .badge {
     display: inline-block;
     padding: 3px 8px;
@@ -674,9 +674,9 @@ div[class*="st-key-dl_pdf_prev_lista_"] [data-testid="stDownloadButton"] button 
     margin-left: 0.12rem !important;
 }
 
-/* ─────────────────────────────────────────────
+/* 
    PREVIEW WRAPPER
-───────────────────────────────────────────── */
+ */
 .preview-wrap {
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -690,9 +690,9 @@ div[class*="st-key-dl_pdf_prev_lista_"] [data-testid="stDownloadButton"] button 
 #MainMenu { visibility: hidden; }
 footer    { visibility: hidden; }
 
-/* ─────────────────────────────────────────────
-   BOTÓN DE COLAPSO — SOLUCIÓN DEFINITIVA
-───────────────────────────────────────────── */
+/* 
+   BOTN DE COLAPSO  SOLUCIN DEFINITIVA
+ */
 
 /* Forzar visibilidad permanente en todos los niveles */
 [data-testid="stSidebarCollapseButton"],
@@ -703,12 +703,12 @@ footer    { visibility: hidden; }
     display: inline-flex !important;
 }
 
-/* Color blanco — sidebar abierto, fondo oscuro */
+/* Color blanco  sidebar abierto, fondo oscuro */
 [data-testid="stSidebarCollapseButton"] span[data-testid="stIconMaterial"] {
     color: #ffffff !important;
 }
 
-/* ── Para el botón que aparece cuando el sidebar está CERRADO ── */
+/*  Para el botón que aparece cuando el sidebar está CERRADO  */
 /* Streamlit usa stSidebarCollapsedControl cuando está cerrado   */
 [data-testid="stSidebarCollapsedControl"],
 [data-testid="stSidebarCollapsedControl"] button,
@@ -725,7 +725,7 @@ footer    { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Jinja2 ────────────────────────────────────────────────────────────────────
+#  Jinja2 
 env = Environment(loader=FileSystemLoader(
     os.path.join(os.path.dirname(__file__), "templates")
 ))
@@ -815,7 +815,7 @@ def html_a_pdf(html: str) -> bytes:
     static_dir = os.path.join(os.path.dirname(__file__), "static")
     return WeasyprintHTML(string=html, base_url=static_dir).write_pdf()
 
-# ── Persistencia en JSON ──────────────────────────────────────────────────────
+#  Persistencia en JSON 
 DATOS_FILE = os.path.join(os.path.dirname(__file__), "actas.json")
 
 def cargar_actas():
@@ -871,7 +871,7 @@ def _sanear_actas(actas: list[dict]) -> bool:
 
     return changed
 
-# ── Helper: dos botones de descarga ──────────────────────────────────────────
+#  Helper: dos botones de descarga 
 def botones_descarga(html: str, tipo: str, acta_id: int, key_suffix: str, close_key: str | None = None) -> bool:
     """
     Muestra botones en una fila:
@@ -966,7 +966,7 @@ def render_control_vinetas_js():
               <rect x="8.5" y="11" width="10" height="2" rx="1" fill="currentColor"></rect>
               <rect x="8.5" y="16" width="10" height="2" rx="1" fill="currentColor"></rect>
             </svg>
-            <span id="vineta-label">Viñeta OFF</span>
+            <span id="vineta-label">Vi&ntilde;eta OFF</span>
           </button>
         </div>
         <script>
@@ -977,14 +977,19 @@ def render_control_vinetas_js():
             if (!doc || !btn || !label) return;
 
             if (!window.parent.__gestorVineta) {
-              window.parent.__gestorVineta = { active: false, lastTextarea: null, initialized: false };
+              window.parent.__gestorVineta = {
+                active: false,
+                lastTextarea: null,
+                initialized: false
+              };
             }
             const state = window.parent.__gestorVineta;
-            const BULLET = "\\u2022 ";
+            const BULLET = "\\u2022\\u00A0\\u00A0";
 
             function setTextareaValue(el, value, caretPos) {
               const setter = Object.getOwnPropertyDescriptor(
-                window.parent.HTMLTextAreaElement.prototype, "value"
+                window.parent.HTMLTextAreaElement.prototype,
+                "value"
               )?.set;
               if (setter) setter.call(el, value);
               else el.value = value;
@@ -995,18 +1000,22 @@ def render_control_vinetas_js():
               el.dispatchEvent(new Event("input", { bubbles: true }));
             }
 
-            function insertBullet(el, prependNewline) {
-              if (!(el instanceof window.parent.HTMLTextAreaElement)) return;
+            function insertAtCursor(el, text) {
               const start = el.selectionStart ?? el.value.length;
               const end = el.selectionEnd ?? start;
-              const insert = (prependNewline ? "\\n" : "") + BULLET;
-              const next = el.value.slice(0, start) + insert + el.value.slice(end);
-              setTextareaValue(el, next, start + insert.length);
+              const next = el.value.slice(0, start) + text + el.value.slice(end);
+              setTextareaValue(el, next, start + text.length);
               el.focus({ preventScroll: true });
             }
 
+            function insertBullet(el, prependNewline) {
+              if (!(el instanceof window.parent.HTMLTextAreaElement)) return;
+              const insert = (prependNewline ? "\\n" : "") + BULLET;
+              insertAtCursor(el, insert);
+            }
+
             function updateButton() {
-              label.textContent = state.active ? "Viñeta ON" : "Viñeta OFF";
+              label.textContent = state.active ? "Vi\\u00f1eta ON" : "Vi\\u00f1eta OFF";
               btn.setAttribute("aria-pressed", state.active ? "true" : "false");
               btn.style.background = state.active ? "rgba(29,78,216,0.22)" : "rgba(255,255,255,0.07)";
               btn.style.borderColor = state.active ? "rgba(147,197,253,0.9)" : "rgba(148,163,184,0.35)";
@@ -1016,7 +1025,9 @@ def render_control_vinetas_js():
             function rememberTarget(ev) {
               if (!(ev.target instanceof Element)) return;
               const t = ev.target.closest("textarea");
-              if (t instanceof window.parent.HTMLTextAreaElement) state.lastTextarea = t;
+              if (t instanceof window.parent.HTMLTextAreaElement) {
+                state.lastTextarea = t;
+              }
             }
 
             function handleEnter(ev) {
@@ -1055,7 +1066,6 @@ def render_control_vinetas_js():
         height=50,
     )
 
-# ── Estado inicial ────────────────────────────────────────────────────────────
 if "actas"         not in st.session_state: st.session_state.actas         = cargar_actas()
 if "preview_html"  not in st.session_state: st.session_state.preview_html  = None
 if "preview_datos" not in st.session_state: st.session_state.preview_datos = {}
@@ -1079,7 +1089,7 @@ TIPOS = {
     "reunion": {"label": "Acta de Reunión", "color": "#1e7a4e"},
 }
 
-# ── SIDEBAR ───────────────────────────────────────────────────────────────────
+#  SIDEBAR 
 with st.sidebar:
     sidebar_logo = os.path.join(os.path.dirname(__file__), "static", "SED sin fondo.png")
     if os.path.exists(sidebar_logo):
@@ -1134,9 +1144,9 @@ page_fade_class = "page-fade" if st.session_state.page_transition else ""
 st.markdown(f'<div class="{page_fade_class}">', unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+# 
 # PÁGINA: NUEVA / EDITAR ACTA
-# ══════════════════════════════════════════════════════════════════════════════
+# 
 if st.session_state.pagina == "nueva":
 
     editando      = st.session_state.acta_editando
@@ -1170,7 +1180,7 @@ if st.session_state.pagina == "nueva":
     datos = {}
 
 
-    # ── INICIO (clásica) ───────────────────────────────────────────────────────
+    #  INICIO (clásica) 
     if tipo == "inicio_requerimiento":
         st.markdown("## Acta de Inicio de Requerimiento")
 
@@ -1242,7 +1252,7 @@ if st.session_state.pagina == "nueva":
         datos["cl_exclusiones"] = st.text_area("", value=datos_previos.get("cl_exclusiones",""), height=80, key="ia_cl_exclusiones")
 
 
-    # ── CIERRE ────────────────────────────────────────────────────────────────
+    #  CIERRE 
     elif tipo == "cierre":
         st.markdown("## Acta de Cierre de Requerimiento")
 
@@ -1282,7 +1292,7 @@ if st.session_state.pagina == "nueva":
         datos["firmaGerente"] = col1.text_input("Gerente de Proyecto", value=datos_previos.get("firmaGerente",""))
         datos["firmaCliente"] = col2.text_input("Cliente / Patrocinador", value=datos_previos.get("firmaCliente",""))
 
-    # ── CIERRE PROYECTO ───────────────────────────────────────────────────
+    #  CIERRE PROYECTO 
     elif tipo == "cierre_proyecto":
         st.markdown("## Acta de Cierre de Proyecto")
 
@@ -1319,7 +1329,7 @@ if st.session_state.pagina == "nueva":
         datos["firmaGerente"] = col1.text_input("Gerente de Proyecto", value=datos_previos.get("firmaGerente",""))
         datos["firmaCliente"] = col2.text_input("Cliente / Patrocinador", value=datos_previos.get("firmaCliente",""))
 
-    # ── REUNIÓN ───────────────────────────────────────────────────────────────
+    #  REUNIN 
     elif tipo == "reunion":
         st.markdown("## Acta de Reunión")
         # campos iniciales de metadatos
@@ -1357,7 +1367,7 @@ if st.session_state.pagina == "nueva":
         st.markdown("#### Observaciones")
         datos["observaciones"] = st.text_area("Observaciones", value=datos_previos.get("observaciones",""), height=90, key="obs_reu", label_visibility="collapsed")
 
-    # ── Barra de acciones ─────────────────────────────────────────────────────
+    #  Barra de acciones 
     if not editando:
         # Borrador en memoria por tipo de acta: se conserva al navegar entre páginas.
         st.session_state.borradores[tipo] = dict(datos)
@@ -1413,7 +1423,7 @@ if st.session_state.pagina == "nueva":
         st.session_state.pagina = "lista"
         st.rerun()
 
-    # ── Vista previa + descarga ───────────────────────────────────────────────
+    #  Vista previa + descarga 
     if st.session_state.preview_html:
         st.divider()
         st.markdown("##### Vista previa - Descargas")
@@ -1437,9 +1447,9 @@ if st.session_state.pagina == "nueva":
         st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+# 
 # PÁGINA: MIS ACTAS
-# ══════════════════════════════════════════════════════════════════════════════
+# 
 elif st.session_state.pagina == "lista":
 
     st.markdown("## Mis Actas")
@@ -1573,7 +1583,7 @@ elif st.session_state.pagina == "lista":
                     st.session_state.pagina = "nueva"
                     st.rerun()
 
-                if col_d.button("🗑", key=f"del_{acta_uid}", use_container_width=True, help="Eliminar acta"):
+                if col_d.button("", key=f"del_{acta_uid}", use_container_width=True, help="Eliminar acta"):
                     titulo_eliminado = acta.get("titulo", "Sin título")
                     st.session_state.actas = [
                         a for a in actas
