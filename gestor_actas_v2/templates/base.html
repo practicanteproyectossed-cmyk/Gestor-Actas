@@ -94,6 +94,21 @@
       white-space: normal;
     }
 
+    h3 {
+      margin: 0 0 14px 0;
+      line-height: 1.25;
+    }
+    h3[style*="border-left"] {
+      margin-top: 0 !important;
+      margin-bottom: 14px !important;
+    }
+    h3[style*="border-left"] + p,
+    h3[style*="border-left"] + div,
+    h3[style*="border-left"] + ul,
+    h3[style*="border-left"] + table {
+      margin-top: 0 !important;
+    }
+
     /* listas: evitar viñetas "salidas" del bloque visual */
     ul, ol {
       margin: 6px 0 6px 0;
@@ -109,10 +124,6 @@
     }
     .firmas-tabla {
       table-layout: auto !important;
-    }
-      font-size: 0.82rem;
-      border: 1px solid var(--border);
-      vertical-align: top;
     }
     .meta-tabla .lbl {
       background: var(--bg-cell);

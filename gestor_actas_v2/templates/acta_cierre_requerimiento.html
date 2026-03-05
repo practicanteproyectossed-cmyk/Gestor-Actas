@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% set accent_color = "#d71920" %}  {# uniforme con acta inicio #}
 {% set tipo_label   = "ACTA DE CIERRE" %}
 
@@ -13,7 +13,7 @@
 
   <!-- Información General -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0; margin-bottom:14px;">
       Información General
     </h3>
     <table style="width:100%; border-collapse:collapse;">
@@ -27,7 +27,7 @@
 
   <!-- Objetivo -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0; margin-bottom:14px;">
       Objetivo del Requerimiento
     </h3>
     <p style="text-align:justify;">{{ datos.get('objetivoCierre','') | replace('\n','<br>') | safe }}</p>
@@ -35,7 +35,7 @@
 
   <!-- Desarrollo -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0; margin-bottom:14px;">
       Desarrollo del Requerimiento
     </h3>
     <p style="text-align:justify;">{{ datos.get('desarrolloRequerimiento','') | replace('\n','<br>') | safe }}</p>
@@ -43,7 +43,7 @@
 
   <!-- Entregables -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0; margin-bottom:14px;">
       Entregables
     </h3>
     <ul>
@@ -55,7 +55,7 @@
 
   <!-- Lecciones Aprendidas -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
-    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0;">
+    <h3 style="border-left:6px solid {{ accent_color }}; padding-left:10px; margin-top:0; margin-bottom:14px;">
       Lecciones Aprendidas
     </h3>
     <ul>
@@ -100,3 +100,6 @@
 
 
 {% endblock %}
+
+
+

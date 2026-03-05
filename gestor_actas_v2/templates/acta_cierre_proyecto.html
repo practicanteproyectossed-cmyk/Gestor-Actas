@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% set accent_color = "#d71920" %}  {# usar rojo uniforme #}
 {% set tipo_label   = "ACTA DE CIERRE" %}
 
@@ -11,7 +11,7 @@
 
   <!-- Información General -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:25px;">
-    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Información General</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px; margin-bottom:14px;">Información General</h3>
     <table style="width:100%; border-collapse:collapse;">
       <tr><td><strong>Empresa:</strong></td><td>{{ datos.get('empresa','') }}</td></tr>
       <tr><td><strong>Proyecto:</strong></td><td>{{ datos.get('proyecto','') }}</td></tr>
@@ -23,12 +23,12 @@
 
   <!-- Secciones -->
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Resumen del Proyecto</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px; margin-bottom:14px;">Resumen del Proyecto</h3>
     <p>{{ datos.get('resumenProyecto','') | replace('\n','<br>') | safe }}</p>
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Participantes</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px; margin-bottom:14px;">Participantes</h3>
     <ul>
       {% for item in datos.get('participantesProyecto','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -37,7 +37,7 @@
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Entregables</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px; margin-bottom:14px;">Entregables</h3>
     <ul>
       {% for item in datos.get('entregablesProyecto','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -46,7 +46,7 @@
   </div>
 
   <div style="background:#ffffff; padding:20px; border-radius:6px; margin-bottom:20px;">
-    <h3 style="border-left:6px solid var(--accent); padding-left:10px;">Documentación</h3>
+    <h3 style="border-left:6px solid var(--accent); padding-left:10px; margin-bottom:14px;">Documentación</h3>
     <ul>
       {% for item in datos.get('documentacion','').split('\n') if item.strip() %}
       <li>{{ item }}</li>
@@ -86,3 +86,6 @@
   </div>
 
 {% endblock %}
+
+
+

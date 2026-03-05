@@ -1111,6 +1111,7 @@ if "borradores"    not in st.session_state: st.session_state.borradores    = {}
 if "filtro_mis_actas" not in st.session_state: st.session_state.filtro_mis_actas = "Todas"
 if "flash"         not in st.session_state: st.session_state.flash         = None
 if "page_transition" not in st.session_state: st.session_state.page_transition = False
+if "vineta_bootstrap_done" not in st.session_state: st.session_state.vineta_bootstrap_done = False
 # migrar selección de tipo antigua (antes: inicio_clasica)
 if st.session_state.get("tipo_seleccionado") == "inicio_clasica":
     st.session_state.tipo_seleccionado = "inicio_requerimiento"
@@ -1173,6 +1174,11 @@ with st.sidebar:
     st.markdown("**Herramientas**")
     if st.session_state.pagina == "nueva":
         render_control_vinetas_js()
+        # Algunos entornos no montan el iframe del control en el primer render.
+        # Forzamos un único rerun de arranque para evitar refresco manual.
+        if not st.session_state.vineta_bootstrap_done:
+            st.session_state.vineta_bootstrap_done = True
+            st.rerun()
 
 render_feedback()
 
