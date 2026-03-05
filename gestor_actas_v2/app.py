@@ -1245,7 +1245,8 @@ if st.session_state.pagina == "nueva":
 
     if col_g.button("Guardar acta", type="primary", use_container_width=True):
         titulo = (
-            datos.get("nombreRequerimiento")
+            datos.get("cl_nombreRequerimiento")
+            or datos.get("nombreRequerimiento")
             or datos.get("proyecto")
             or datos.get("nombreReunion")
             or "Sin título"
