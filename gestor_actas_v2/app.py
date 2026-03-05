@@ -938,6 +938,123 @@ def render_feedback():
     fn(message, icon=icon)
     st.session_state.flash = None
 
+def render_control_vinetas_js():
+    components.html(
+        """
+        <div style="display:flex; justify-content:flex-start; margin-top:0.1rem;">
+          <button id="vineta-toggle-btn" type="button" aria-pressed="false"
+            style="
+              width:138px;
+              height:34px;
+              border-radius:6px;
+              border:1px solid rgba(148,163,184,0.35);
+              background:rgba(255,255,255,0.07);
+              color:#e7eef8;
+              font:500 13px Inter, sans-serif;
+              cursor:pointer;
+              display:inline-flex;
+              align-items:center;
+              justify-content:center;
+              gap:6px;
+              transition:all .2s ease;
+            ">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="5.5" cy="7" r="1.5" fill="currentColor"></circle>
+              <circle cx="5.5" cy="12" r="1.5" fill="currentColor"></circle>
+              <circle cx="5.5" cy="17" r="1.5" fill="currentColor"></circle>
+              <rect x="8.5" y="6" width="10" height="2" rx="1" fill="currentColor"></rect>
+              <rect x="8.5" y="11" width="10" height="2" rx="1" fill="currentColor"></rect>
+              <rect x="8.5" y="16" width="10" height="2" rx="1" fill="currentColor"></rect>
+            </svg>
+            <span id="vineta-label">Viñeta OFF</span>
+          </button>
+        </div>
+        <script>
+          (() => {
+            const doc = window.parent.document;
+            const btn = document.getElementById("vineta-toggle-btn");
+            const label = document.getElementById("vineta-label");
+            if (!doc || !btn || !label) return;
+
+            if (!window.parent.__gestorVineta) {
+              window.parent.__gestorVineta = { active: false, lastTextarea: null, initialized: false };
+            }
+            const state = window.parent.__gestorVineta;
+            const BULLET = "\\u2022 ";
+
+            function setTextareaValue(el, value, caretPos) {
+              const setter = Object.getOwnPropertyDescriptor(
+                window.parent.HTMLTextAreaElement.prototype, "value"
+              )?.set;
+              if (setter) setter.call(el, value);
+              else el.value = value;
+              if (typeof caretPos === "number") {
+                el.selectionStart = caretPos;
+                el.selectionEnd = caretPos;
+              }
+              el.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+
+            function insertBullet(el, prependNewline) {
+              if (!(el instanceof window.parent.HTMLTextAreaElement)) return;
+              const start = el.selectionStart ?? el.value.length;
+              const end = el.selectionEnd ?? start;
+              const insert = (prependNewline ? "\\n" : "") + BULLET;
+              const next = el.value.slice(0, start) + insert + el.value.slice(end);
+              setTextareaValue(el, next, start + insert.length);
+              el.focus({ preventScroll: true });
+            }
+
+            function updateButton() {
+              label.textContent = state.active ? "Viñeta ON" : "Viñeta OFF";
+              btn.setAttribute("aria-pressed", state.active ? "true" : "false");
+              btn.style.background = state.active ? "rgba(29,78,216,0.22)" : "rgba(255,255,255,0.07)";
+              btn.style.borderColor = state.active ? "rgba(147,197,253,0.9)" : "rgba(148,163,184,0.35)";
+              btn.style.boxShadow = state.active ? "0 0 0 1px rgba(147,197,253,0.35) inset" : "none";
+            }
+
+            function rememberTarget(ev) {
+              if (!(ev.target instanceof Element)) return;
+              const t = ev.target.closest("textarea");
+              if (t instanceof window.parent.HTMLTextAreaElement) state.lastTextarea = t;
+            }
+
+            function handleEnter(ev) {
+              if (!state.active || ev.key !== "Enter" || ev.shiftKey) return;
+              const t = ev.target;
+              if (!(t instanceof window.parent.HTMLTextAreaElement)) return;
+              ev.preventDefault();
+              insertBullet(t, true);
+            }
+
+            if (!state.initialized) {
+              doc.addEventListener("focusin", rememberTarget, true);
+              doc.addEventListener("click", rememberTarget, true);
+              doc.addEventListener("keydown", handleEnter, true);
+              state.initialized = true;
+            }
+
+            btn.addEventListener("mousedown", (ev) => ev.preventDefault());
+            btn.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              const active = doc.activeElement;
+              if (active instanceof window.parent.HTMLTextAreaElement) {
+                state.lastTextarea = active;
+              }
+              state.active = !state.active;
+              updateButton();
+              if (state.active && state.lastTextarea instanceof window.parent.HTMLTextAreaElement) {
+                insertBullet(state.lastTextarea, false);
+              }
+            });
+
+            updateButton();
+          })();
+        </script>
+        """,
+        height=50,
+    )
+
 # ── Estado inicial ────────────────────────────────────────────────────────────
 if "actas"         not in st.session_state: st.session_state.actas         = cargar_actas()
 if "preview_html"  not in st.session_state: st.session_state.preview_html  = None
@@ -1005,6 +1122,11 @@ with st.sidebar:
             st.session_state.tipo_seleccionado = tid
             st.session_state.acta_editando    = None
             st.rerun()
+
+    st.divider()
+    st.markdown("**Herramientas**")
+    if st.session_state.pagina == "nueva":
+        render_control_vinetas_js()
 
 render_feedback()
 
